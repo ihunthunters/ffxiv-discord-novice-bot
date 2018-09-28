@@ -1,0 +1,1 @@
+ffxiv-discord-novice-bot
