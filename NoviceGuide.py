@@ -1,14 +1,19 @@
 #Project imports
 import discord
 import traceback
+import json
 import os
 from discord.ext import commands
 
+#basic bot setup
 bot = commands.Bot(command_prefix='*')
 bot.remove_command('help')
 
-#setup the error handler
-#TODO: setup error handling
+def getAuthToken():
+    with open('settings.json') as f:
+        data = json.load(f)
+
+    return data["authToken"]
 
 #setup the command listeners
 @bot.command()
@@ -104,4 +109,4 @@ def getJobDetails(arg):
 
     return wiki_link
 
-bot.run("token")
+bot.run(getAuthToken())
