@@ -4,6 +4,7 @@ import traceback
 import json
 import os
 import logging
+from textblob import TextBlob
 from discord.ext import commands
 
 #logging setup
@@ -160,6 +161,41 @@ def getHuntingLogs(arg):
         log_link = "nothing"
 
     return log_link
+
+
+
+
+
+#setup basic message processing
+@bot.event
+async def on_message(message):
+    print(message.content)
+
+    #blob out the content of the message
+    blob = TextBlob(message.content)
+    processMessage(blob)
+
+    '''TODO: 
+        1) Parse message.
+        2) Determine if the message is directed to the bot or the channel.
+        3) Determine if the message is a question.
+        4) Determine what the subject of the question is.
+        5) ???
+        6) Profit.
+    '''
+
+def processMessage(blob):
+    #pull the subject out of the message
+    subjects = [tag for tag in blob.tags if tag[1] == 'PRP']
+    print('\nSubject ->')
+    print(subjects)
+
+def isQuestion(input):
+    #TODO: There are other ways to tell if its a question.
+    if input.ends_with('?'):
+        return True
+    else:
+        return False
 
 
 bot.run(getAuthToken())
